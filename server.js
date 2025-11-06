@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import connectDB from './config/mongoose.js'
+import userRouter from './routes/user.Route.js'
 
 
 
@@ -29,7 +30,7 @@ app.use(cors())
 app.get('/', (req, res) => {
     res.status(200).send('API is Running')
 })
-
+app.use('/api/user',userRouter)
 
 app.listen(PORT, () => {
     console.log(`Server Running on port http://localhost:${PORT}`)
