@@ -11,7 +11,6 @@ import userRouter from './routes/user.Route.js'
 const  PORT = process.env.PORT || 5000
 const app = express()
 
-await connectDB()
 app.use(cors())
 
 
@@ -20,7 +19,7 @@ app.use("/api/user/webhooks", express.raw({ type: "application/json" }));
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
+
 
 
 
@@ -30,9 +29,21 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
     res.status(200).send('API is Running')
 })
-app.use('/api/user',userRouter)
+app.use('/api/user', userRouter)
+
+
+let isConnected = false;
+
+app.use(async (req, res, next) => {
+  if (!isConnected) {
+    await connectDB();
+    isConnected = true;
+  }
+  next();
+});
 
 app.listen(PORT, () => {
     console.log(`Server Running on port http://localhost:${PORT}`)
 })
 
+export default app;
