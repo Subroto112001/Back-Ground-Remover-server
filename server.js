@@ -15,13 +15,13 @@ await connectDB()
 app.use(cors())
 
 
-
+app.use("/api/user/webhooks", express.raw({ type: "application/json" }));
 // Initialize Middleware
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
-app.use(cors())
+
 
 
 
